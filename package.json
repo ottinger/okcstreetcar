@@ -9,7 +9,7 @@
   "dependencies": {
   	"express": "^4.16.4",
   	"eventsource": "^1.0.7"
-  }
+  },
   "keywords": [
     "streetcar",
     "bendyboi",
