@@ -2,8 +2,7 @@ var express = require('express');
 var EventSource = require("eventsource");
 
 var app = express();
-//var port = process.env.PORT;
-var port = 9001;
+var port = process.env.PORT || 9001;
 
 app.use(express.static('.'));
 
