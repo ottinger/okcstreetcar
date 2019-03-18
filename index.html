@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>Bendyboi</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<!-- divs need to be BEFORE the script tags! -->
+<div id="app" class="container-fluid"> <!-- we want container-FLUID for full width! -->
+	<div class="container-fluid" id="navbar-container">
+		<nav class="navbar navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Bendyboi <small>OKC STREETCAR MAP</small></a>
+		</nav>
+	</div>
+	<div class="row">
+		<div class="col-12 col-sm-6 col-lg-8" id="map-panel">
+		<!-- map -->
+			<div id="map" class="map">
+
+			</div>
+		</div>
+		<div class="col-12 col-sm-6 col-lg-4" id="info-panel">
+		<!-- info panel -->
+			<h1>{{currentStop.name}}</h1>
+			<div v-for="(times,index) in currentStop.arrivals" v-if="currentStop.arrivals[index] != null">
+				<div :class="['row','route-row',currentStop.routeNames[index]]">
+
+					<div class="col-6 col-sm-7">
+						<h3>{{currentStop.routeNames[index]}}</h3>
+					</div>
+
+					<div class="col-4 col-sm-5">
+						<div v-for="(curTime,j) in times">
+							<b>{{curTime}}</b> <small>minutes</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="stops.js"></script>
+<script src="eta.js"></script>
+<script src="app.js"></script>
+
+
+</body>
+</html>
