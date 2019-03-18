@@ -1,0 +1,16 @@
+{
+  "name": "bendyboi",
+  "version": "0.1.0",
+  "description": "OKC Streetcar tracker",
+  "main": "eventproxy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "streetcar",
+    "bendyboi",
+    "heroku"
+  ],
+  "author": "michael ottinger",
+  "license": "UNLICENSED"
+}
