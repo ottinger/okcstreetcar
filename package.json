@@ -4,11 +4,12 @@
   "description": "OKC Streetcar tracker",
   "main": "eventproxy.js",
   "scripts": {
-	"start": "node eventproxy.js"
+    "start": "node eventproxy.js"
   },
   "dependencies": {
-  	"express": "^4.16.4",
-  	"eventsource": "^1.0.7"
+    "eventsource": "^1.0.7",
+    "express": "^4.16.4",
+    "nvm": "0.0.4"
   },
   "keywords": [
     "streetcar",

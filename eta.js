@@ -15,30 +15,7 @@ evts.addEventListener("open", function(e) {
 var etaStops = [];  // one element for each stop/route number
 var curData = [];
 
-evts.addEventListener("message", function(e) {
-
-	// prepare the data
-	curData = JSON.parse(e.data);
-	if(etaStops[curData.stopId]==null)
-		etaStops[curData.stopId] = []; // We use an array in case we have more than 1 route
-	if(etaStops[curData.stopId][curData.routeId]==null)
-		etaStops[curData.stopId][curData.routeId] = []; // array for 3 durations
-
-	var curEtaStop = etaStops[curData.stopId];
-	curEtaStop[curData.routeId] = [
-		curData.firstDuration,
-		curData.secondDuration,
-		curData.thirdDuration
-	];
-	Vue.set(etaStops, curData.stopId, curEtaStop);
-	// etaStops.$set(curData.stopId, curEtaStop);
-	//console.log(curData.routeId + " " + curData.firstDuration);
-}, false);
-
 function setVueStops(inArr, id) {
-	var etaStops = [];
-	var curData = [];
-
 	evts.addEventListener("message", function(e) {
 
 		// prepare the data
