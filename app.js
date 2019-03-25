@@ -62,6 +62,15 @@ var app = new Vue({
 		initArrivals() {
 
 
+		},
+		toCurLocation() {
+			if(navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(function(position) {
+					app.map.panTo(new L.LatLng(position.coords.latitude, position.coords.longitude), 15);
+				});
+			} else {
+				alert("poop");
+			}
 		}
 		
 	 },
