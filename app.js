@@ -66,12 +66,27 @@ var app = new Vue({
 		toCurLocation() {
 			if(navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(function(position) {
-					app.map.panTo(new L.LatLng(position.coords.latitude, position.coords.longitude), 15);
-				});
+					app.map.flyTo(new L.LatLng(position.coords.latitude, position.coords.longitude), 17);
+				},
+					function(position) {
+						alert("NOTE: will usually not work on non-HTTPS " + position.message)
+					});
 			} else {
 				alert("poop");
 			}
-		}
+		},
+		toPickedStop(id) {
+			let stopObj = stopsLayer.features.find(obj => {return obj.id === id});
+			app.map.flyTo(new L.LatLng(stopObj.coords[0], stopObj.coords[1]), 17.5);
+			// TODO: make a function for this to avoid duplicated code with initLayers()
+			app.currentStop.name = stopObj.name;
+
+			// wipe arrivals before we get next data
+			app.currentStop.arrivals = [];
+
+			setVueStops(app.currentStop.arrivals,stopObj.id);
+			app.currentStop.id = stopObj.id;
+		},
 		
 	 },
 
