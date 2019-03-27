@@ -43,42 +43,27 @@ var app = new Vue({
 					var curMarker = L.marker(element.coords).addTo(parentVue.map);
 					markers.push(curMarker);
 					curMarker.on('click', function() {
-						console.log(element);
-						app.currentStop.name = element.name;
-
-						// wipe arrivals before we get next data
-						app.currentStop.arrivals = [];	
-
-						setVueStops(app.currentStop.arrivals,element.id);
-						app.currentStop.id = element.id;
-						console.log(curData);
-
+						app.initArrivals(element);
 					});
 					console.log(element.name);
 				});
 
 
 		},
-		initArrivals() {
-
-
-		},
 		toCurLocation() {
-			if(navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(function(position) {
-					app.map.flyTo(new L.LatLng(position.coords.latitude, position.coords.longitude), 17);
-				},
-					function(position) {
-						alert("NOTE: will usually not work on non-HTTPS " + position.message)
-					});
-			} else {
-				alert("poop");
-			}
+			// Will likely not work except on localhost - requires https
+		    app.map.locate({setView: true, maxZoom: 17});
 		},
 		toPickedStop(id) {
 			let stopObj = stopsLayer.features.find(obj => {return obj.id === id});
 			app.map.flyTo(new L.LatLng(stopObj.coords[0], stopObj.coords[1]), 17.5);
-			// TODO: make a function for this to avoid duplicated code with initLayers()
+			app.initArrivals(stopObj);
+		},
+		// initArrivals()
+		//
+		// Change the information in the arrivals panel to reflect stop chosen
+		// Called by toPickedStop(), initLayers()
+		initArrivals(stopObj) {
 			app.currentStop.name = stopObj.name;
 
 			// wipe arrivals before we get next data
