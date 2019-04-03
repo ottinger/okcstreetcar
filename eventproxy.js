@@ -4,7 +4,7 @@ var EventSource = require("eventsource");
 var app = express();
 var port = process.env.PORT || 9001;
 
-app.use(express.static('.'));
+app.use(express.static('public'));
 
 clients = []; // array/list of sse clients
 
