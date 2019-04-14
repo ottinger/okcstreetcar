@@ -5,27 +5,39 @@
 
 // eventsource
 var evts = new EventSource("eta"); // we don't need full url
-console.log(evts.url);
-console.log(evts.readyState);
-console.log(evts.withCredentials);
-evts.addEventListener("open", function(e) {
-	console.log("OPEN SESAME");
-}, false);
-
 var etaStops = [];  // one element for each stop/route number
 var curData = [];
 
 function setVueStops(inArr, id) {
-	evts.addEventListener("message", function(e) {
+	// Remove previously created event listeners
+	evts.removeEventListener("message", handleEvent, false);
 
+	// removing event listeners doesn't seem to do the job, but closing and reopening eventsource
+	// does
+	evts.close();
+	evts = new EventSource("eta");
+
+	// The code inside the event listener runs once for each stop, each route, every time we get new arrival times.
+	evts.addEventListener("message", handleEvent, false);
+
+	// handleEvent()
+	//
+	// Function called by the EventListener created in setVueStops().
+	//
+	// Anonymous function will not suffice here, since we need to be able to call removeEventListener()
+	// to remove the listener (ie when a different stop is chosen).
+	//
+	// Also we have to use closures to allow access to variables when called by addEventListener (thus why
+	// it's nested inside setVueStops()).
+	function handleEvent(e) {
 		// prepare the data
-		curData = JSON.parse(e.data);
+		curData = JSON.parse(e.data); // Arrival times for one stop, one route
 		if(etaStops[curData.stopId]==null)
 			etaStops[curData.stopId] = []; // We use an array in case we have more than 1 route
 		if(etaStops[curData.stopId][curData.routeId]==null)
 			etaStops[curData.stopId][curData.routeId] = []; // array for 3 durations
 
-		console.log("curdata.stopid: " + curData.stopId + "curdata.routeid: " + curData.routeId + " eta stops: " + etaStops[curData.stopId]);		
+		console.log("curdata.stopid: " + curData.stopId + "curdata.routeid: " + curData.routeId + " eta stops: " + etaStops[curData.stopId]);
 
 		// change the data for this route in etaStops
 		var curEtaStop = etaStops[curData.stopId];
@@ -36,14 +48,13 @@ function setVueStops(inArr, id) {
 		];
 		etaStops[curData.stopId] = curEtaStop;
 
-		// now save the changes to the vue model
-		inArr.forEach(function(element,index) { Vue.set(inArr,index,null); });
-		etaStops[id].forEach(function(element, index) {
-			Vue.set(inArr, index, element);
-		});
-
-		// route names will be hardcoded in app.js for now
-	}, false);
-
-	return etaStops;
+		// Update the Vue model if the event has times for the selected stop.
+		if(curData.stopId == id) {
+			console.log("Hit: " + curData.stopId);
+			// now save the changes to the vue model
+			etaStops[id].forEach(function(element, index) {
+				Vue.set(inArr, index, element);
+			});
+		}
+	}
 }
