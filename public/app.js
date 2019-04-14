@@ -19,7 +19,6 @@ var app = new Vue({
 	mounted() {
 		this.initMap();
 		this.initLayers();
-		this.initArrivals();
 		},
 
 	methods: {
@@ -59,11 +58,11 @@ var app = new Vue({
 			app.map.flyTo(new L.LatLng(stopObj.coords[0], stopObj.coords[1]), 17.5);
 			app.initArrivals(stopObj);
 		},
-		// initArrivals()
+		// setArrivals()
 		//
 		// Change the information in the arrivals panel to reflect stop chosen
 		// Called by toPickedStop(), initLayers()
-		initArrivals(stopObj) {
+		setArrivals(stopObj) {
 			app.currentStop.name = stopObj.name;
 
 			// wipe arrivals before we get next data
