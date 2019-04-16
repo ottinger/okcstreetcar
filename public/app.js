@@ -42,7 +42,7 @@ var app = new Vue({
 					var curMarker = L.marker(element.coords).addTo(parentVue.map);
 					markers.push(curMarker);
 					curMarker.on('click', function() {
-						app.initArrivals(element);
+						app.setArrivals(element);
 					});
 					console.log(element.name);
 				});
@@ -56,7 +56,7 @@ var app = new Vue({
 		toPickedStop(id) {
 			let stopObj = stopsLayer.features.find(obj => {return obj.id === id});
 			app.map.flyTo(new L.LatLng(stopObj.coords[0], stopObj.coords[1]), 17.5);
-			app.initArrivals(stopObj);
+			app.setArrivals(stopObj);
 		},
 		// setArrivals()
 		//
