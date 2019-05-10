@@ -1,5 +1,10 @@
-#map { height: calc(100% - 3.5rem); width: 100%; padding: 0px; } /* navbar is 3.5rem */
+#map { height: calc(100% - 3.5rem); width: 100%; padding: 0px;  } /* navbar is 3.5rem */
 #app { padding: 0px; overflow-x: hidden; }
+
+/* Chrome on Android doesn't want to work unless we set parent element heights... */
+html, body, #app {
+	height: 100%;
+}
 
 
 /* navbar stuff */
@@ -19,8 +24,7 @@
 /* for x-small devices (col-xx) */
 @media (max-width: 575.98px) {
 	#map { height: calc(100% - 3.5rem - 200px); /* navbar is 3.5rem */ }
-	#info-panel { margin-left: 15px; }
-
+	#info-panel { margin-left: 15px; margin-top: calc(-1.75rem - 100px); }
 }
 /* for small devices (col-sm-xx) */
 @media (max-width: 767.98px) {
@@ -39,3 +43,4 @@
 .route-row {
 	padding-bottom: 10px;
 }
+
