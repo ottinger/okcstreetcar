@@ -24,6 +24,20 @@ var currentStops = {};
 var currentRoutes = {};
 app.get('/api/:stopId', function(req,res) {
 	res.setHeader('Content-Type', 'application/json');
+
+	// Check how long it's been since updated. If more than 2 minutes, wipe the times and
+	// tell the user it's unavailable (since the times are probably no good).
+	var cur_time = new Date();
+	for (var rk in currentStops[req.params.stopId].routes) {
+		var r = currentStops[req.params.stopId].routes[rk];
+		var time_diff = cur_time - r.lastUpdated; // Time diff in milliseconds
+
+		if(time_diff > 120000) {
+			r.lastUpdated = cur_time;
+			r.times = ["Not Available"];
+		}
+	}
+
 	res.send(currentStops[req.params.stopId]);
 });
 
@@ -36,15 +50,18 @@ es.onmessage = function(e) {
 
 	// Load it into our arrays for our use
 	var m = JSON.parse(e.data);
+
 	// fill stop information
+
+	// set up stop objects if we need to
 	if(!currentStops[m.stopId])
-		currentStops[m.stopId] = {name: m.stopName};
-	if(!currentStops[m.stopId][m.routeId])
-		currentStops[m.stopId][m.routeId] = {name: m.routeName,
-			stopId: m.stopId,
-			times: [m.firstDuration, m.secondDuration, m.thirdDuration]};
-	else
-		currentStops[m.stopId][m.routeId].times = [m.firstDuration, m.secondDuration, m.thirdDuration];
+		currentStops[m.stopId] = {name: m.stopName, stopId: m.stopId, routes: {}};
+	if(!currentStops[m.stopId].routes[m.routeId])
+		currentStops[m.stopId].routes[m.routeId] = {name: m.routeName,
+			routeId: m.routeId};
+	// load the times in, and update last updated
+	currentStops[m.stopId].routes[m.routeId].times = [m.firstDuration, m.secondDuration, m.thirdDuration];
+	currentStops[m.stopId].routes[m.routeId].lastUpdated = new Date();
 
 
 	console.log(m);
