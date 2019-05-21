@@ -1,3 +1,6 @@
+import { stopsList, getMarkers, stopsLayer } from './stops.js';
+import { setVueStops } from './eta.js';
+
 var app = new Vue({
 	el: '#app',
 
@@ -54,7 +57,7 @@ var app = new Vue({
 		    app.map.locate({setView: true, maxZoom: 17});
 		},
 		toPickedStop(id) {
-			let stopObj = stopsLayer.features.find(obj => {return obj.id === id});
+			let stopObj = app.layers[0].features.find(obj => {return obj.id === id});
 			app.map.flyTo(new L.LatLng(stopObj.coords[0], stopObj.coords[1]), 17.5);
 			app.setArrivals(stopObj);
 		},

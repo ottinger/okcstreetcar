@@ -4,6 +4,8 @@ var EventSource = require("eventsource");
 var app = express();
 var port = process.env.PORT || 9001;
 
+var DEBUG = true;
+
 app.use(express.static('public'));
 
 clients = []; // array/list of sse clients
@@ -74,3 +76,16 @@ app.listen(port);
 console.log("now listening on port " + port);
 
 module.exports = app;
+
+// Debug stuff: lets us send our own output (fake arrival times) to client if OKC Streetcar API is down.
+if(DEBUG) {
+	const rl = require('readline').createInterface({
+		input: process.stdin,
+		output: process.stdout
+	})
+	rl.on('line', (input_data) => {
+		for(let r of clients) {
+			r.write("data: " + input_data + "\n\n"); // needs TWO newlines for browser to see it!
+		}
+	})
+}

@@ -58,3 +58,5 @@ function setVueStops(inArr, id) {
 		}
 	}
 }
+
+export { setVueStops };

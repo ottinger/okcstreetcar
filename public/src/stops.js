@@ -192,10 +192,13 @@ function getMarkers() {
 	return stops;
 }
 
-var stopsLayer = 
-	{
-		id: 0,
-		name: "Streetcar Stops",
-		active: true,
-		features: getMarkers(),
-	};
+var stopsLayer =
+    {
+      id: 0,
+      name: "Streetcar Stops",
+      active: true,
+      features: getMarkers()
+    };
+
+
+export { stopsList, getMarkers, stopsLayer };

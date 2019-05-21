@@ -23,7 +23,7 @@
                             <a class="btn btn-secondary dropdown-toggle" id="stopsDropdownLink" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false" href="#">Go to stop...</a>
                             <div class="dropdown-menu" aria-labelledby="stopsDropdownLink">
-                                <div v-for="s in stopsLayer.features">
+                                <div v-for="s in layers[0].features">
                                     <a class="dropdown-item" href="#" v-on:click="toPickedStop(s.id)">{{s.name}}</a>
                                 </div>
                             </div>
@@ -70,9 +70,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <!-- end bootstrap stuff -->
-<script src="stops.js"></script>
-<script src="eta.js"></script>
-<script src="app.js"></script>
+<script src="dist/main.js"></script>
 
 
 </body>
