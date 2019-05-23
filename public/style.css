@@ -44,3 +44,19 @@ html, body, #app {
 	padding-bottom: 10px;
 }
 
+/* dots for routes */
+.downtown-dot {
+	height: 20px;
+	width: 20px;
+	background-color: #E70F47;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.bricktown-dot {
+	height: 20px;
+	width: 20px;
+	background-color: #3C20AE;
+	border-radius: 50%;
+	display: inline-block;
+}

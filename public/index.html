@@ -48,7 +48,10 @@
 				<div :class="['row','route-row',currentStop.routeNames[index]]">
 
 					<div class="col-6 col-sm-7">
-						<h3>{{currentStop.routeNames[index]}}</h3>
+						<h3>{{currentStop.routeNames[index]}}
+							<span class="downtown-dot" v-if="index == 1"></span>
+							<span class="bricktown-dot" v-if="index == 5"></span></h3>
+
 					</div>
 
 					<div class="col-4 col-sm-5">
