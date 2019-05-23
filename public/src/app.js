@@ -1,5 +1,7 @@
 import { stopsList, getMarkers, stopsLayer } from './stops.js';
 import { setVueStops } from './eta.js';
+import $ from 'jquery';
+import 'leaflet-polylineoffset';
 
 var app = new Vue({
 	el: '#app',
@@ -8,7 +10,7 @@ var app = new Vue({
 		map: null,
 		tileLayer: null,
 		layers: [
-				stopsLayer,
+				stopsLayer
 			],
 		currentStop: {
 			id: 0,
@@ -49,7 +51,14 @@ var app = new Vue({
 					});
 					console.log(element.name);
 				});
-
+			$.getJSON("lines.geojson", function(data) {
+				L.geoJSON(data, { style: function(route) {
+					if(route.properties.routeId == 1) // Downtown Loop
+						return {color: "#E70F47", weight: 5};
+					if(route.properties.routeId == 5)
+						return {color: "#3C20AE", weight: 5, offset: 5};
+				}}).addTo(app.map);
+			})
 
 		},
 		toCurLocation() {

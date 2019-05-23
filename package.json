@@ -9,6 +9,7 @@
   "dependencies": {
     "eventsource": "^1.0.7",
     "express": "^4.16.4",
+    "leaflet-polylineoffset": "^1.1.1",
     "nvm": "0.0.4"
   },
   "keywords": [
@@ -21,6 +22,7 @@
   "author": "michael ottinger",
   "license": "UNLICENSED",
   "devDependencies": {
+    "leaflet": "^1.5.1",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2"
   }
