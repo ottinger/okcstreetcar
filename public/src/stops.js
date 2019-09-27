@@ -186,7 +186,6 @@ function getMarkers() {
 			type: "marker",
 			coords: element['coords']
 		};
-		console.log(curFeature);
 		stops.push(curFeature);
 	});
 	return stops;

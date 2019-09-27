@@ -1,4 +1,3 @@
-import { stopsList, getMarkers, stopsLayer } from './stops.js';
 import { setVueStops } from './eta.js';
 import $ from 'jquery';
 import 'leaflet-polylineoffset';
@@ -10,7 +9,7 @@ var app = new Vue({
 		map: null,
 		tileLayer: null,
 		layers: [
-				stopsLayer
+			{}
 			],
 		currentStop: {
 			id: 0,
@@ -38,19 +37,17 @@ var app = new Vue({
 			this.tileLayer.addTo(this.map);
 		},
 		initLayers() {
-			var markers = [];
-			var parentVue = this;
-	
-			console.log(this.layers[0]['features']);	
-			this.layers[0]['features'].forEach(function(element) {
-					console.log(parent);
-					var curMarker = L.marker(element.coords).addTo(parentVue.map);
-					markers.push(curMarker);
-					curMarker.on('click', function() {
-						app.setArrivals(element);
-					});
-					console.log(element.name);
-				});
+			$.getJSON("stops.geojson", function(data) {
+				L.geoJSON(data,
+					{
+						onEachFeature: function(feature, featureLayer) {
+							featureLayer.on({
+								click: function(e) { app.setArrivals(e.target.feature.properties); }
+							})
+						}
+					}).addTo(app.map);
+			});
+
 			$.getJSON("lines.geojson", function(data) {
 				L.geoJSON(data, { style: function(route) {
 					if(route.properties.routeId == 1) // Downtown Loop
@@ -75,13 +72,13 @@ var app = new Vue({
 		// Change the information in the arrivals panel to reflect stop chosen
 		// Called by toPickedStop(), initLayers()
 		setArrivals(stopObj) {
-			app.currentStop.name = stopObj.name;
+			app.currentStop.name = stopObj.stopName;
 
 			// wipe arrivals before we get next data
 			app.currentStop.arrivals = [];
 
-			setVueStops(app.currentStop.arrivals,stopObj.id);
-			app.currentStop.id = stopObj.id;
+			setVueStops(app.currentStop.arrivals,stopObj.stopId);
+			app.currentStop.id = stopObj.stopId;
 		},
 		
 	 },
