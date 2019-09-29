@@ -8,9 +8,6 @@ var app = new Vue({
 	data: {
 		map: null,
 		tileLayer: null,
-		layers: [
-			{}
-			],
 		currentStop: {
 			id: 0,
 			name: "Select a stop",
@@ -18,6 +15,7 @@ var app = new Vue({
 			routeNames: [null,"Downtown",null,null,null,"Bricktown"],
 			routeColors: [null, "E70F47",null,null,null,"3C20AE"],
 		},
+		stopsLayer: null,
 	 },
 
 	mounted() {
@@ -38,7 +36,7 @@ var app = new Vue({
 		},
 		initLayers() {
 			$.getJSON("stops.geojson", function(data) {
-				L.geoJSON(data,
+				app.stopsLayer = L.geoJSON(data,
 					{
 						onEachFeature: function(feature, featureLayer) {
 							featureLayer.on({
@@ -63,9 +61,13 @@ var app = new Vue({
 		    app.map.locate({setView: true, maxZoom: 17});
 		},
 		toPickedStop(id) {
-			let stopObj = app.layers[0].features.find(obj => {return obj.id === id});
-			app.map.flyTo(new L.LatLng(stopObj.coords[0], stopObj.coords[1]), 17.5);
-			app.setArrivals(stopObj);
+			app.stopsLayer.eachLayer(function(layer) {
+				console.log(layer);
+				if(layer.feature.properties.stopId == id) {
+					app.map.flyTo(new L.LatLng(layer.feature.geometry.coordinates[1], layer.feature.geometry.coordinates[0]), 17.5);
+					app.setArrivals(layer.feature.properties);
+				}
+			})
 		},
 		// setArrivals()
 		//
