@@ -24,7 +24,7 @@ html, body, #app {
 /* for x-small devices (col-xx) */
 @media (max-width: 575.98px) {
 	#map { height: calc(100% - 3.5rem - 200px); /* navbar is 3.5rem */ }
-	#info-panel { margin-left: 15px; margin-top: calc(-1.75rem - 100px); }
+	#info-panel { margin-left: 15px; margin-top: calc(-3.5rem - 200px); }
 }
 /* for small devices (col-sm-xx) */
 @media (max-width: 767.98px) {
